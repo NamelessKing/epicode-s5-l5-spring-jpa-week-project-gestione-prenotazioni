@@ -1,6 +1,7 @@
 package it.epicode.gestioneprenotazioni.services;
 
 import it.epicode.gestioneprenotazioni.entities.Utente;
+import it.epicode.gestioneprenotazioni.exceptions.UtenteNotFoundException;
 import it.epicode.gestioneprenotazioni.repositories.UtenteRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UtenteService {
 
     public Utente getByUsername(String username) {
         return utenteRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato: " + username));
+                .orElseThrow(() -> new UtenteNotFoundException("Utente non trovato: " + username));
     }
 
     public long count() {

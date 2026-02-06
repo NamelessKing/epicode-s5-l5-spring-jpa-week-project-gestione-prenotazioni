@@ -2,8 +2,9 @@ package it.epicode.gestioneprenotazioni.services;
 
 import it.epicode.gestioneprenotazioni.entities.Postazione;
 import it.epicode.gestioneprenotazioni.entities.TipoPostazione;
-import java.util.List;
+import it.epicode.gestioneprenotazioni.exceptions.PostazioneNotFoundException;
 import it.epicode.gestioneprenotazioni.repositories.PostazioneRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class PostazioneService {
 
     public Postazione getByCodice(String codice) {
         return postazioneRepository.findByCodice(codice)
-                .orElseThrow(() -> new IllegalArgumentException("Postazione non trovata: " + codice));
+                .orElseThrow(() -> new PostazioneNotFoundException("Postazione non trovata: " + codice));
     }
 
     public List<Postazione> findByTipoAndCitta(TipoPostazione tipo, String citta) {

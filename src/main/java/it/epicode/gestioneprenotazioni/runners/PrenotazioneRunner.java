@@ -4,6 +4,8 @@ import it.epicode.gestioneprenotazioni.entities.Postazione;
 import it.epicode.gestioneprenotazioni.entities.Prenotazione;
 import it.epicode.gestioneprenotazioni.entities.TipoPostazione;
 import it.epicode.gestioneprenotazioni.entities.Utente;
+import it.epicode.gestioneprenotazioni.exceptions.PostazioneNonDisponibileException;
+import it.epicode.gestioneprenotazioni.exceptions.UtenteGiaPrenotatoException;
 import it.epicode.gestioneprenotazioni.services.PostazioneService;
 import it.epicode.gestioneprenotazioni.services.PrenotazioneService;
 import it.epicode.gestioneprenotazioni.services.UtenteService;
@@ -55,14 +57,14 @@ public class PrenotazioneRunner implements CommandLineRunner {
         // provo a prenotare la stessa postazione nella stessa data (fallisce)
         try {
             prenotazioneService.creaPrenotazione(utente2.getId(), postazioneA.getId(), data);
-        } catch (IllegalStateException ex) {
+        } catch (PostazioneNonDisponibileException ex) {
             System.out.println("Prenotazione non creata (postazione occupata): " + ex.getMessage());
         }
 
         // provo a prenotare una seconda postazione per lo stesso utente e data (fallisce)
         try {
             prenotazioneService.creaPrenotazione(utente1.getId(), postazioneB.getId(), data);
-        } catch (IllegalStateException ex) {
+        } catch (UtenteGiaPrenotatoException ex) {
             System.out.println("Prenotazione non creata (utente gia prenotato): " + ex.getMessage());
         }
 
